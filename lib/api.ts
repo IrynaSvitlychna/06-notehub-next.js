@@ -6,8 +6,15 @@ import { Note } from "../types/note";
     notes: Note[];
     totalPages: number;
   }  
- 
 
+// axios.defaults.baseURL = 'https://notehub-public.goit.study/api'
+  
+// export const getNotes = async () => {
+//   const { data } = await axios<PaginatedNotesResponse>('/notes')
+//   return data
+// };
+
+ 
 const request = axios.create({
   baseURL: "https://notehub-public.goit.study/api",
   headers: {
@@ -15,11 +22,16 @@ const request = axios.create({
   },
 });
 
+export const getSingleNote = async (id: string) => {
+  const { data } = await axios<Note>(`/notes/${id}`)
+  return data
+}
+
 export const fetchNotes = async (
   search: string,
-  page: number
+page: number
 ): Promise<PaginatedNotesResponse> => {
- 
+  
   const params: {
     search?: string;
     page: number;
