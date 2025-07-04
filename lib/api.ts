@@ -7,6 +7,14 @@ import { Note } from "../types/note";
     totalPages: number;
   }  
 
+export interface DeletedNoteInfo {
+  deletedNoteId: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string
+  tag: "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
+}  
 // axios.defaults.baseURL = 'https://notehub-public.goit.study/api'
   
 // export const getNotes = async () => {
@@ -22,7 +30,7 @@ const request = axios.create({
   },
 });
 
-export const getSingleNote = async (id: string) => {
+export const getSingleNote = async (id: number) => {
   const { data } = await axios<Note>(`/notes/${id}`)
   return data
 }
@@ -65,9 +73,9 @@ export const createNote = async (note: {
   
 };
 
-export const deleteNote = async (id: number): Promise<Note> => {
+export const deleteNote = async (id: number): Promise<DeletedNoteInfo> => {
  
-    const response = await request.delete<Note>(`/notes/${id}`);
+    const response = await request.delete<DeletedNoteInfo>(`/notes/${id}`);
 
     return response.data;
   

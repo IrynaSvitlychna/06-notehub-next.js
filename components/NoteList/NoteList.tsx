@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { type Note } from "../../types/note";
 import { deleteNote } from "../../lib/api";
 import { useState } from "react";
+import Link from "next/link";
 
 interface NoteListProps {
   notes: Note[];
@@ -48,7 +49,11 @@ export default function NoteList({ notes }: NoteListProps) {
         <h2 className={css.title}>{note.title}</h2>
         <p className={css.content}>{note.content}</p>
         <div className={css.footer}>
-          <span className={css.tag}>{note.tag}</span>
+            <span className={css.tag}>{note.tag}</span>
+            <Link href={`/notes/${note.id}`}>{note.title}
+              View details
+            </Link>
+          
             <button
               className={css.button}
               onClick={() => handleDeleteNote(note.id)}

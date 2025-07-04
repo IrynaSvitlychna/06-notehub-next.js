@@ -14,6 +14,7 @@ import { type Note } from '@/types/note';
     useQuery,
     keepPreviousData,
 } from "@tanstack/react-query";
+// import toast from "react-hot-toast";
   
 type NotesClientProps = {
     initialData: {
@@ -27,10 +28,11 @@ const NotesClient = ({ initialData }:NotesClientProps ) => {
     const [currentQuery, setCurrentQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [debouncedSearchQuery] = useDebounce(currentQuery, 500);
-    const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  // const [errorMessage, setErrorMessage] = useState<string | null>(null);
    
   
-    const { data, isLoading, isError } = useQuery<
+    const { data,  isLoading, isError, } = useQuery<
       PaginatedNotesResponse>({
         queryKey: ["notes", currentPage, debouncedSearchQuery],
         queryFn: () => fetchNotes(debouncedSearchQuery, currentPage),
@@ -38,6 +40,24 @@ const NotesClient = ({ initialData }:NotesClientProps ) => {
           initialData: initialData,
       });
   
+      // const notifyNoNotesFound = () =>
+      //   toast.error("No notes found for your request.", {
+      //     style: { background: "rgba(125, 183, 255, 0.8)" },
+      //     icon: "ℹ️",
+      //   });
+  
+      // useEffect(() => {
+      //   if (isError && queryError) {
+      //     setErrorMessage(queryError.message);
+      //   } else if (errorMessage && !isError) {
+      //     setErrorMessage(null);
+      //   }
+    
+      //   if (isSuccess && debouncedSearchQuery && (data?.notes || []).length === 0) {
+      //     notifyNoNotesFound();
+      //   }
+      // }, [isSuccess, data, debouncedSearchQuery, isError, queryError, errorMessage]);
+    
   
     const handleSearch = (value: string) => {
       setCurrentQuery(value);
@@ -66,7 +86,10 @@ const NotesClient = ({ initialData }:NotesClientProps ) => {
         </header>
         
         {isModalOpen && <NoteModal onClose={() => setIsModalOpen(false)} />}
-             
+
+        {isLoading && <p>Loading...</p>}
+        {isError && <p>Something went wrong</p>}
+        
         {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
         
       </div>
