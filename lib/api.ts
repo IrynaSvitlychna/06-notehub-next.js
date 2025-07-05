@@ -31,7 +31,7 @@ const request = axios.create({
 });
 
 export const getSingleNote = async (id: number) => {
-  const { data } = await axios<Note>(`/notes/${id}`)
+  const { data } = await axios.get<Note>(`/notes/${id}`)
   return data
 }
 

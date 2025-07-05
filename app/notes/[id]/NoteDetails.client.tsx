@@ -10,7 +10,7 @@ const NoteDetailsClient = () => {
   const idNum = Number(id);
 
   const { data: note, isLoading, error } = useQuery({
-    queryKey: ["note", id],
+    queryKey: ["note", idNum],
     queryFn: () => getSingleNote(idNum),
     refetchOnMount: false,
   });
@@ -29,7 +29,7 @@ const NoteDetailsClient = () => {
             <button className={css.editBtn}>Edit note</button>
           </div>
           <p className={css.content}>{note.content}</p>
-          <p className={css.date}>{note.createdAd}</p>
+          <p className={css.date}>{note.createdAt}</p>
         </div>
     </div>
     )
