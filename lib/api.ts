@@ -15,13 +15,6 @@ export interface DeletedNoteInfo {
   updatedAt: string
   tag: "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
 }  
-// axios.defaults.baseURL = 'https://notehub-public.goit.study/api'
-  
-// export const getNotes = async () => {
-//   const { data } = await axios<PaginatedNotesResponse>('/notes')
-//   return data
-// };
-
  
 const request = axios.create({
   baseURL: "https://notehub-public.goit.study/api",
@@ -30,10 +23,10 @@ const request = axios.create({
   },
 });
 
-export const getSingleNote = async (id: number) => {
-  const { data } = await axios.get<Note>(`/notes/${id}`)
-  return data
-}
+export const getSingleNote = async (id: number): Promise<Note> => {
+  const { data } = await request.get<Note>(`/notes/${id}`);
+  return data;
+};
 
 export const fetchNotes = async (
   search: string,
